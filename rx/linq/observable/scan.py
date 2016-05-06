@@ -1,4 +1,4 @@
-from rx import Observable
+from rx.core import Observable
 from rx.internal import extensionmethod
 
 
@@ -20,7 +20,7 @@ def scan(self, accumulator, seed=None):
     """
 
     has_seed = False
-    if not seed is None:
+    if seed is not None:
         has_seed = True
 
     source = self
@@ -33,7 +33,7 @@ def scan(self, accumulator, seed=None):
             if has_accumulation[0]:
                 accumulation[0] = accumulator(accumulation[0], x)
             else:
-                accumulation[0] =  accumulator(seed, x) if has_seed else x
+                accumulation[0] = accumulator(seed, x) if has_seed else x
                 has_accumulation[0] = True
 
             return accumulation[0]

@@ -1,4 +1,4 @@
-from rx import Observable, AnonymousObservable
+from rx.core import Observable, AnonymousObservable
 from rx.internal.utils import adapt_call
 from rx.internal import extensionmethod
 
@@ -24,6 +24,7 @@ def take_while(self, predicate):
 
     predicate = adapt_call(predicate)
     observable = self
+
     def subscribe(observer):
         running, i = [True], [0]
 

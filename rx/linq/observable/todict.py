@@ -1,5 +1,6 @@
-from rx import Observable, AnonymousObservable
+from rx.core import Observable, AnonymousObservable
 from rx.internal import extensionmethod
+
 
 def _to_dict(source, map_type, key_selector, element_selector):
     def subscribe(observer):

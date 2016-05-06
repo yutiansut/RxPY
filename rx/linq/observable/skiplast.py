@@ -1,4 +1,4 @@
-from rx import Observable, AnonymousObservable
+from rx.core import Observable, AnonymousObservable
 from rx.internal import extensionmethod
 
 
@@ -32,10 +32,8 @@ def skip_last(self, count):
                 if len(q) > count:
                     front = q.pop(0)
 
-            if not front is None:
+            if front is not None:
                 observer.on_next(front)
 
-        return source.subscribe(on_next, observer.on_error, 
-                                observer.on_completed)
+        return source.subscribe(on_next, observer.on_error, observer.on_completed)
     return AnonymousObservable(subscribe)
-

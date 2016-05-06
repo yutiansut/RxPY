@@ -1,3 +1,4 @@
+from rx.core import Observable
 from .observablebase import ObservableBase
 
 
@@ -13,7 +14,7 @@ class AnonymousObservable(ObservableBase):
         :param types.FunctionType subscribe: Subscribe method implementation.
         """
 
-        self._subscribe = subscribe
+        self._subscribe = subscribe.subscribe if isinstance(subscribe, Observable) else subscribe
         super(AnonymousObservable, self).__init__()
 
     def _subscribe_core(self, observer):

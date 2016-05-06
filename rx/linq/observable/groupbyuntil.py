@@ -1,6 +1,6 @@
 from collections import OrderedDict
 
-from rx import Observable, AnonymousObservable
+from rx.core import Observable, AnonymousObservable
 from rx.subjects import Subject
 from rx.disposables import CompositeDisposable, RefCountDisposable, \
     SingleAssignmentDisposable

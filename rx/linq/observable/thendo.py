@@ -1,7 +1,7 @@
-from rx import Observable
+from rx.core import Observable
 from rx.internal import extensionmethod
-
 from rx.joins import Pattern
+
 
 @extensionmethod(Observable, alias="then")
 def then_do(self, selector):
@@ -16,4 +16,3 @@ def then_do(self, selector):
     """
 
     return Pattern([self]).then_do(selector)
-

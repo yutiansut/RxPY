@@ -1,11 +1,9 @@
 from rx import Lock
-from rx.core import Observable, AnonymousObservable
+from rx.core import AnonymousObservable
 from rx.concurrency import current_thread_scheduler
-from rx.internal import extensionclassmethod
 
 
-@extensionclassmethod(Observable, alias=["from_", "from_list"])
-def from_iterable(cls, iterable, scheduler=None):
+def from_iterable(iterable, scheduler=None):
     """Converts an array to an observable sequence, using an optional
     scheduler to enumerate the array.
 

@@ -1,10 +1,7 @@
-from rx import Observable, AnonymousObservable
 from rx.internal.utils import adapt_call
-from rx.internal import extensionmethod
 
 
-@extensionmethod(Observable, alias="filter")
-def where(self, predicate):
+def where(predicate, source):
     """Filters the elements of an observable sequence based on a predicate
     by incorporating the element's index.
 
@@ -24,7 +21,6 @@ def where(self, predicate):
     """
 
     predicate = adapt_call(predicate)
-    parent = self
 
     def subscribe(observer):
         count = [0]
@@ -41,5 +37,5 @@ def where(self, predicate):
             if should_run:
                 observer.on_next(value)
 
-        return parent.subscribe(on_next, observer.on_error, observer.on_completed)
-    return AnonymousObservable(subscribe)
+        return source.subscribe(on_next, observer.on_error, observer.on_completed)
+    return source.create(subscribe)

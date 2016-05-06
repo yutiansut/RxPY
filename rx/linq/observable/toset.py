@@ -1,5 +1,6 @@
-from rx import Observable, AnonymousObservable
+from rx.core import Observable, AnonymousObservable
 from rx.internal import extensionmethod
+
 
 def _to_set(source, set_type):
     def subscribe(observer):

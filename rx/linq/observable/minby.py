@@ -1,6 +1,7 @@
-from rx import AnonymousObservable, Observable
+from rx.core import AnonymousObservable, Observable
 from rx.internal.basic import default_sub_comparer
 from rx.internal import extensionmethod
+
 
 def extrema_by(source, key_selector, comparer):
     def subscribe(observer):
@@ -15,7 +16,7 @@ def extrema_by(source, key_selector, comparer):
                 observer.on_error(ex)
                 return
 
-            comparison = 0;
+            comparison = 0
 
             if not has_value[0]:
                 has_value[0] = True
@@ -29,7 +30,7 @@ def extrema_by(source, key_selector, comparer):
 
             if comparison > 0:
                 last_key[0] = key
-                #list.clear()
+                # list.clear()
                 list[:] = []
 
             if comparison >= 0:
@@ -63,4 +64,3 @@ def min_by(self, key_selector, comparer=None):
     comparer = comparer or default_sub_comparer
 
     return extrema_by(self, key_selector, lambda x, y: comparer(x, y) * -1)
-

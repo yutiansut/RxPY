@@ -1,10 +1,9 @@
-from rx import Observable, AnonymousObservable
+from rx.core import Observable, AnonymousObservable
 from rx.internal.utils import adapt_call
 from rx.internal import extensionmethod
 
 
-@extensionmethod(Observable, alias="map")
-def select(self, selector):
+def select(selector, source):
     """Project each element of an observable sequence into a new form
     by incorporating the element's index.
 
@@ -35,6 +34,5 @@ def select(self, selector):
                 count[0] += 1
                 observer.on_next(result)
 
-        return self.subscribe(on_next, observer.on_error, observer.on_completed)
-
-    return AnonymousObservable(subscribe)
+        return source.subscribe(on_next, observer.on_error, observer.on_completed)
+    return source.create(subscribe)

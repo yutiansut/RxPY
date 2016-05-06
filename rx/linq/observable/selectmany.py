@@ -1,7 +1,8 @@
-from rx import Observable
+from rx.core import Observable
 from rx.internal.utils import adapt_call
 from rx.internal import extensionmethod
 import collections
+
 
 def _flat_map(source, selector):
     def projection(x, i):
@@ -11,7 +12,7 @@ def _flat_map(source, selector):
         else:
             result = Observable.from_future(selector_result)
         return result
-        
+
     return source.map(projection).merge_observable()
 
 

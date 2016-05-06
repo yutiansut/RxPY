@@ -1,6 +1,7 @@
-from rx import Observable, AnonymousObservable
+from rx.core import Observable, AnonymousObservable
 from rx.internal.exceptions import SequenceContainsNoElementsError
 from rx.internal import extensionmethod
+
 
 def single_or_default_async(source, has_default=False, default_value=None):
     def subscribe(observer):
@@ -50,4 +51,4 @@ def single_or_default(self, predicate, default_value):
     """
 
     return self.filter(predicate).single_or_default(None, default_value) if predicate else single_or_default_async(self, True, default_value)
-    
+

@@ -16,6 +16,7 @@ from .observerbase import ObserverBase
 from .observablebase import ObservableBase
 from .anonymousobserver import AnonymousObserver
 from .anonymousobservable import AnonymousObservable
+from .chainedobservable import ChainedObservable
 
 from . import checkedobserver
 from . import observerextensions

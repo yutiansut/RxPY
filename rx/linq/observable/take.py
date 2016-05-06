@@ -1,4 +1,4 @@
-from rx import Observable, AnonymousObservable
+from rx.core import Observable, AnonymousObservable
 from rx.internal import ArgumentOutOfRangeException
 from rx.internal import extensionmethod
 
@@ -27,7 +27,8 @@ def take(self, count, scheduler=None):
     if not count:
         return Observable.empty(scheduler)
 
-    observable = self
+    source = self
+
     def subscribe(observer):
         remaining = [count]
 
@@ -38,5 +39,5 @@ def take(self, count, scheduler=None):
                 if not remaining[0]:
                     observer.on_completed()
 
-        return observable.subscribe(on_next, observer.on_error, observer.on_completed)
-    return AnonymousObservable(subscribe)
+        return source.subscribe(on_next, observer.on_error, observer.on_completed)
+    return self.create(subscribe)

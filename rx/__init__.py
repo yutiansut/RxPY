@@ -1,3 +1,5 @@
+# flake8: noqa
+
 try:
     import asyncio
 except ImportError:
@@ -31,5 +33,14 @@ from .core import Observer, Observable
 from .core.anonymousobserver import AnonymousObserver
 from .core.anonymousobservable import AnonymousObservable
 
+from .linq.observable.select import select as map
+from .linq.observable.where import where as filter
+from .linq.observable.fromiterable import from_iterable
+from_ = from_iterable
+
+from rx.core import ChainedObservable
+
 from . import backpressure
 from . import linq
+
+

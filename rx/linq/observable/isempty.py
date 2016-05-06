@@ -1,5 +1,6 @@
-from rx import Observable
+from rx.core import Observable
 from rx.internal import extensionmethod
+
 
 @extensionmethod(Observable)
 def is_empty(self):
@@ -10,4 +11,3 @@ def is_empty(self):
     """
 
     return self.some().map(lambda b: not b)
-

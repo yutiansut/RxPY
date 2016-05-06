@@ -1,4 +1,4 @@
-from rx import AnonymousObservable
+from rx.core import AnonymousObservable
 from rx.disposables import CompositeDisposable
 
 from .exceptions import DisposedException

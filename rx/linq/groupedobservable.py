@@ -1,5 +1,4 @@
-from rx import AnonymousObservable
-from rx.core import ObservableBase
+from rx.core import ObservableBase, AnonymousObservable
 from rx.disposables import CompositeDisposable
 
 

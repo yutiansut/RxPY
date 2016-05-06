@@ -1,9 +1,9 @@
-from rx import Observable
+from rx.core import Observable
 from rx.internal import extensionmethod
 
 
 @extensionmethod(Observable, name="slice")
-def slice_(self, start=None, stop=None, step=1):
+def slice_(self, start=0, stop=None, step=1):
     """Slices the given observable. It is basically a wrapper around the
     operators skip(), skip_last(), take(), take_last() and filter().
 

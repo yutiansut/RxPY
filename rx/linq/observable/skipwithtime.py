@@ -1,5 +1,6 @@
-from rx import Observable, AnonymousObservable
+from rx.core import Observable, AnonymousObservable
 from rx.disposables import CompositeDisposable
+from rx.concurrency import timeout_scheduler
 from rx.internal import extensionmethod
 
 
@@ -49,4 +50,3 @@ def skip_with_time(self, duration, scheduler=None):
         d = source.subscribe(on_next, observer.on_error, observer.on_completed)
         return CompositeDisposable(t, d)
     return AnonymousObservable(subscribe)
-

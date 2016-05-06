@@ -1,4 +1,4 @@
-from rx import Observable, AnonymousObservable
+from rx.core import Observable, AnonymousObservable
 from rx.internal import extensionmethod
 
 
@@ -20,7 +20,7 @@ def take_last_buffer(self, count):
     :param int count: Number of elements to take from the end of the source
         sequence.
 
-    :returns: An observable sequence containing a single list with the specified 
+    :returns: An observable sequence containing a single list with the specified
     number of elements from the end of the source sequence.
     :rtype: Observable
     """
@@ -29,6 +29,7 @@ def take_last_buffer(self, count):
 
     def subscribe(observer):
         q = []
+
         def on_next(x):
             with self.lock:
                 q.append(x)
