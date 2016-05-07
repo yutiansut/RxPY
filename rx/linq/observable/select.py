@@ -1,7 +1,8 @@
+from functools import partial
 from rx.internal.utils import adapt_call
 
 
-def select(selector, source):
+def select(selector, source=None):
     """Project each element of an observable sequence into a new form
     by incorporating the element's index.
 
@@ -18,6 +19,9 @@ def select(selector, source):
     invoking the transform function on each element of source.
     """
 
+    if source is None:
+        return partial(select, selector)
+
     selector = adapt_call(selector)
 
     def subscribe(observer):
@@ -33,4 +37,5 @@ def select(selector, source):
                 observer.on_next(result)
 
         return source.subscribe(on_next, observer.on_error, observer.on_completed)
+
     return source.create(subscribe)

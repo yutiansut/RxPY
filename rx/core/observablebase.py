@@ -89,3 +89,6 @@ class ObservableBase(Producer):
     @abstractmethod
     def _subscribe_core(self, observer):
         return NotImplemented
+
+    def __or__(self, func):
+        return func(self)

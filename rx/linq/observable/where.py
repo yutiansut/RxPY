@@ -1,7 +1,8 @@
+from functools import partial
 from rx.internal.utils import adapt_call
 
 
-def where(predicate, source):
+def where(predicate, source=None):
     """Filters the elements of an observable sequence based on a predicate
     by incorporating the element's index.
 
@@ -19,6 +20,8 @@ def where(predicate, source):
     sequence that satisfy the condition.
     :rtype: Observable
     """
+    if source is None:
+        return partial(where, predicate)
 
     predicate = adapt_call(predicate)
 

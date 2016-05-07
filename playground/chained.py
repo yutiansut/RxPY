@@ -19,6 +19,13 @@ def main():
     ys = rx.map(lambda x: x*10, rx.filter(lambda x: x > 2, xs))
     ys.subscribe(print)
 
+    print("-------------- Functionally piped style with partial application")
+
+    # Functional style like itertools with partially applied functions
+    xs = rx.from_([1, 2, 3, 4, 5])
+    ys = xs | rx.filter(lambda x: x > 2) | rx.map(lambda x: x*10)
+    ys.subscribe(print)
+
     print("-------------- Use subsclassing for extending")
 
     # Use subclassing to extend with own methods (open/closed)
