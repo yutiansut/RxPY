@@ -1,5 +1,5 @@
 import rx
-from rx import ChainedObservable
+from rx import Observable
 from rx.core import AnonymousObservable
 from rx.subjects import Subject
 
@@ -8,7 +8,7 @@ def main():
     print("-------------- Use normal chaining")
 
     # Chained like normal Rx
-    xs = ChainedObservable.from_([1, 2, 3, 4, 5])
+    xs = Observable.from_([1, 2, 3, 4, 5])
     ys = xs.where(lambda x: x > 2).select(lambda x: x*10)
     ys.subscribe(print)
 
@@ -22,7 +22,7 @@ def main():
     print("-------------- Use subsclassing for extending")
 
     # Use subclassing to extend with own methods (open/closed)
-    class MyObservable(ChainedObservable):
+    class MyObservable(Observable):
         def tap(self):
             """Extension method"""
             def subscribe(observer):

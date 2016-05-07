@@ -1,7 +1,7 @@
 from abc import ABCMeta, abstractmethod
 
 
-class Observable(object):
+class Producer(object):
     __metaclass__ = ABCMeta
 
     @abstractmethod

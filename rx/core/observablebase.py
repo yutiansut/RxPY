@@ -1,23 +1,18 @@
-import types
-from abc import abstractmethod
+from abc import abstractmethod, abstractclassmethod
 
 from rx import Lock
 from rx.concurrency import current_thread_scheduler
 
-from . import Observer, Observable, Disposable
+from . import Observer, Producer, Disposable
 from .anonymousobserver import AnonymousObserver
 from .autodetachobserver import AutoDetachObserver
 
 
-class ObservableBase(Observable):
+class ObservableBase(Producer):
     """Represents a push-style collection."""
 
     def __init__(self):
         self.lock = Lock()
-
-        # Deferred instance method assignment
-        for name, method in self._methods:
-            setattr(self, name, types.MethodType(method, self))
 
     def subscribe(self, on_next=None, on_error=None, on_completed=None, observer=None):
         """Subscribe an observer to the observable sequence.
@@ -86,6 +81,10 @@ class ObservableBase(Observable):
 
         # Hide the identity of the auto detach observer
         return Disposable.create(auto_detach_observer.dispose)
+
+    @abstractclassmethod
+    def create(cls, subscribe):
+        return NotImplemented
 
     @abstractmethod
     def _subscribe_core(self, observer):

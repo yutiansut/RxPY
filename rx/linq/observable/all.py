@@ -1,9 +1,4 @@
-from rx.core import Observable
-from rx.internal import extensionmethod
-
-
-@extensionmethod(Observable, alias="every")
-def all(self, predicate):
+def all(predicate, source):
     """Determines whether all elements of an observable sequence satisfy a
     condition.
 
@@ -17,4 +12,4 @@ def all(self, predicate):
     specified predicate.
     """
 
-    return self.filter(lambda v: not predicate(v)).some().map(lambda b: not b)
+    return source.filter(lambda v: not predicate(v)).some().map(lambda b: not b)

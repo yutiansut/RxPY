@@ -1,6 +1,4 @@
-from rx.core import Observable, AnonymousObservable
 from rx.internal.utils import adapt_call
-from rx.internal import extensionmethod
 
 
 def select(selector, source):

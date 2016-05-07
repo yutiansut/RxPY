@@ -29,7 +29,7 @@ config = {
     "asyncio": asyncio
 }
 
-from .core import Observer, Observable
+from .core import Observer, Producer
 from .core.anonymousobserver import AnonymousObserver
 from .core.anonymousobservable import AnonymousObservable
 
@@ -38,7 +38,7 @@ from .linq.observable.where import where as filter
 from .linq.observable.fromiterable import from_iterable
 from_ = from_iterable
 
-from rx.core import ChainedObservable
+from rx.core import Observable
 
 from . import backpressure
 from . import linq

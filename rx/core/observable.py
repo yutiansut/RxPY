@@ -1,15 +1,32 @@
 from . import AnonymousObservable
 
-from rx.linq.observable.select import select
-from rx.linq.observable.where import where
-from rx.linq.observable.fromiterable import from_iterable
 
+class Observable(AnonymousObservable):
+    """Observable with operators and methods.
 
-class ChainedObservable(AnonymousObservable):
+    This class is rather large but that is only to keep things
+    consistent with Rx. You can choose to use this class or not if
+    you want method chaining or just use simple functions.simple
+    """
 
-    #
-    # Creation
-    #
+    def all(predicate, source):
+        """Determines whether all elements of an observable sequence satisfy a
+        condition.
+
+        1 - res = source.all(lambda value: value.length > 3)
+
+        Keyword arguments:
+        :param bool predicate: A function to test each element for a condition.
+
+        :returns: An observable sequence containing a single element determining
+        whether all elements in the source sequence pass the test in the
+        specified predicate.
+        """
+
+        from rx.linq.observable.all import all
+        return all(source, predicate)
+
+    every = all
 
     @classmethod
     def from_iterable(cls, iterable, scheduler=None):
@@ -28,6 +45,7 @@ class ChainedObservable(AnonymousObservable):
             given enumerable sequence.
         :rtype: Observable
         """
+        from rx.linq.observable.fromiterable import from_iterable
         return cls(from_iterable(iterable, scheduler).subscribe)
 
     # Aliases
@@ -54,6 +72,7 @@ class ChainedObservable(AnonymousObservable):
         Returns an observable sequence whose elements are the result of
         invoking the transform function on each element of source.
         """
+        from rx.linq.observable.select import select
         return select(selector, self)
 
     def where(self, predicate):
@@ -74,4 +93,5 @@ class ChainedObservable(AnonymousObservable):
         sequence that satisfy the condition.
         :rtype: Observable
         """
+        from rx.linq.observable.where import where
         return where(predicate, self)
