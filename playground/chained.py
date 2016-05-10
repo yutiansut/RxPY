@@ -5,14 +5,14 @@ from rx.subjects import Subject
 
 
 def main():
-    print("-------------- Use normal chaining")
+    print("-------------- Use normal Rx method chaining")
 
     # Chained like normal Rx
     xs = Observable.from_([1, 2, 3, 4, 5])
     ys = xs.where(lambda x: x > 2).select(lambda x: x*10)
     ys.subscribe(print)
 
-    print("-------------- Functional style")
+    print("-------------- Plain functional style")
 
     # Functional style like itertools
     xs = rx.from_([1, 2, 3, 4, 5])

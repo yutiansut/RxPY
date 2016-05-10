@@ -1,5 +1,7 @@
 from functools import partial
+
 from rx.internal.utils import adapt_call
+from rx.core import SafeObserver
 
 
 def where(predicate, source=None):
@@ -26,6 +28,7 @@ def where(predicate, source=None):
     predicate = adapt_call(predicate)
 
     def subscribe(observer):
+        safe_observer = None
         count = [0]
 
         def on_next(value):
@@ -33,12 +36,13 @@ def where(predicate, source=None):
                 should_run = predicate(value, count[0])
             except Exception as ex:
                 observer.on_error(ex)
-                return
+                safe_observer.dispose()
             else:
                 count[0] += 1
 
-            if should_run:
-                observer.on_next(value)
+                if should_run:
+                    observer.on_next(value)
 
-        return source.subscribe(on_next, observer.on_error, observer.on_completed)
+        safe_observer = SafeObserver(on_next, observer.on_error, observer.on_completed)
+        return source.subscribe_safe(safe_observer)
     return source.create(subscribe)

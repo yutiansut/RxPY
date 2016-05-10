@@ -53,6 +53,7 @@ def observable_timer_timespan(duetime, scheduler):
 
 
 def observable_timer_timespan_and_period(duetime, period, scheduler):
+
     if duetime == period:
         def subscribe(observer):
             def action(count):

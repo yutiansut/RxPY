@@ -1,4 +1,6 @@
 from functools import partial
+
+from rx.core import SafeObserver
 from rx.internal.utils import adapt_call
 
 
@@ -25,6 +27,7 @@ def select(selector, source=None):
     selector = adapt_call(selector)
 
     def subscribe(observer):
+        safe_observer = None
         count = [0]
 
         def on_next(value):
@@ -32,10 +35,11 @@ def select(selector, source=None):
                 result = selector(value, count[0])
             except Exception as err:
                 observer.on_error(err)
+                safe_observer.dispose()
             else:
                 count[0] += 1
                 observer.on_next(result)
 
-        return source.subscribe(on_next, observer.on_error, observer.on_completed)
-
+        safe_observer = SafeObserver(on_next, observer.on_error, observer.on_completed)
+        return source.subscribe_safe(safe_observer)
     return source.create(subscribe)

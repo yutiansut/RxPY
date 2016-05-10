@@ -39,15 +39,16 @@ class ObservableBase(Producer):
             to the observable sequence.
         """
         # Accept observer as first parameter
-        if isinstance(on_next, Observer):
-            observer = on_next
-        elif hasattr(on_next, "on_next") and callable(on_next.on_next):
-            observer = on_next
-        elif not observer:
-            observer = AnonymousObserver(on_next, on_error, on_completed)
+        # Accept observer as first parameter
+        obv = observer if observer else on_next
+        if not isinstance(obv, Observer) and not (hasattr(obv, "on_next") and callable(obv.on_next)):
+            obv = AnonymousObserver(on_next, on_error, on_completed)
 
-        auto_detach_observer = AutoDetachObserver(observer)
+        auto_detach_observer = AutoDetachObserver(obv)
 
+        self.subscribe_safe(auto_detach_observer)
+
+    def subscribe_safe(self, safe_observer):
         def fix_subscriber(subscriber):
             """Fixes subscriber to make sure it returns a Disposable instead
             of None or a dispose function"""
@@ -59,12 +60,12 @@ class ObservableBase(Producer):
 
         def set_disposable(scheduler=None, value=None):
             try:
-                subscriber = self._subscribe_core(auto_detach_observer)
+                subscriber = self._subscribe_core(safe_observer)
             except Exception as ex:
-                if not auto_detach_observer.fail(ex):
+                if not safe_observer.fail(ex):
                     raise
             else:
-                auto_detach_observer.disposable = fix_subscriber(subscriber)
+                safe_observer.disposable = fix_subscriber(subscriber)
 
         # Subscribe needs to set up the trampoline before for subscribing.
         # Actually, the first call to Subscribe creates the trampoline so
@@ -80,7 +81,7 @@ class ObservableBase(Producer):
             set_disposable()
 
         # Hide the identity of the auto detach observer
-        return Disposable.create(auto_detach_observer.dispose)
+        return Disposable.create(safe_observer.dispose)
 
     @abstractclassmethod
     def create(cls, subscribe):

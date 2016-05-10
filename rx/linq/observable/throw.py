@@ -31,4 +31,4 @@ def throw(cls, exception, scheduler=None):
             observer.on_error(exception)
 
         return scheduler.schedule(action)
-    return AnonymousObservable(subscribe)
+    return cls.create(subscribe)

@@ -20,6 +20,5 @@ def interval(cls, period, scheduler=None):
 
     Returns an observable sequence that produces a value after each period.
     """
-
     scheduler = scheduler or TimeoutScheduler()
     return Observable.timer(period, period, scheduler)

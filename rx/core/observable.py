@@ -56,7 +56,7 @@ class Observable(AnonymousObservable):
     # Transformation
     #
 
-    def select(self, selector):
+    def map(self, selector):
         """Project each element of an observable sequence into a new form
         by incorporating the element's index.
 
@@ -74,8 +74,9 @@ class Observable(AnonymousObservable):
         """
         from rx.linq.observable.select import select
         return select(selector, self)
+    select = map
 
-    def where(self, predicate):
+    def filter(self, predicate):
         """Filters the elements of an observable sequence based on a predicate
         by incorporating the element's index.
 
@@ -95,3 +96,4 @@ class Observable(AnonymousObservable):
         """
         from rx.linq.observable.where import where
         return where(predicate, self)
+    where = filter

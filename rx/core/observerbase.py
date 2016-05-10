@@ -1,6 +1,5 @@
 from abc import abstractmethod
 
-from rx.internal import noop
 from . import Observer, Disposable
 
 
@@ -49,9 +48,8 @@ class ObserverBase(Observer, Disposable):
 
     def dispose(self):
         """Disposes the observer, causing it to transition to the stopped
-        state."""
-
-        self.on_next = noop
+        state.
+        """
         self.is_stopped = True
 
     def fail(self, exn):

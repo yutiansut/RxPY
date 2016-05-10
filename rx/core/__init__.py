@@ -15,6 +15,7 @@ else:
 from .observerbase import ObserverBase
 from .observablebase import ObservableBase
 from .anonymousobserver import AnonymousObserver
+from .safeobserver import SafeObserver
 from .anonymousobservable import AnonymousObservable
 from .observable import Observable
 
