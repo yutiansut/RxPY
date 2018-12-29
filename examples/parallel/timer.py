@@ -1,15 +1,13 @@
-from __future__ import print_function
-
-import rx
 import concurrent.futures
 import time
+import rx
 
 seconds = [5, 1, 2, 4, 3]
 
 
-def sleep(t):
-    time.sleep(t)
-    return t
+def sleep(tm):
+    time.sleep(tm)
+    return tm
 
 
 def output(result):

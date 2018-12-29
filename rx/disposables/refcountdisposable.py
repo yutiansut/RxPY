@@ -1,4 +1,4 @@
-from rx import config
+from threading import RLock
 from rx.core import Disposable
 
 
@@ -12,7 +12,7 @@ class RefCountDisposable(Disposable):
         def __init__(self, parent):
             self.parent = parent
             self.is_disposed = False
-            self.lock = config["concurrency"].RLock()
+            self.lock = RLock()
 
         def dispose(self):
             with self.lock:
@@ -27,10 +27,10 @@ class RefCountDisposable(Disposable):
         self.underlying_disposable = disposable
         self.is_primary_disposed = False
         self.is_disposed = False
-        self.lock = config["concurrency"].RLock()
+        self.lock = RLock()
         self.count = 0
 
-        super(RefCountDisposable, self).__init__()
+        super().__init__()
 
     def dispose(self):
         """Disposes the underlying disposable only when all dependent
@@ -47,7 +47,7 @@ class RefCountDisposable(Disposable):
                     self.is_disposed = True
                     disposable = self.underlying_disposable
 
-        if disposable:
+        if disposable is not None:
             disposable.dispose()
 
     def release(self):
@@ -72,6 +72,6 @@ class RefCountDisposable(Disposable):
         with self.lock:
             if self.is_disposed:
                 return Disposable.empty()
-            else:
-                self.count += 1
-                return self.InnerDisposable(self)
+
+            self.count += 1
+            return self.InnerDisposable(self)

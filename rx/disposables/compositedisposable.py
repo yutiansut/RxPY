@@ -1,9 +1,10 @@
-from rx import config
+from threading import RLock
 from rx.core import Disposable
 
 
 class CompositeDisposable(Disposable):
-    """Represents a group of disposable resources that are disposed together"""
+    """Represents a group of disposable resources that are disposed
+    together"""
 
     def __init__(self, *args):
         if args and isinstance(args[0], list):
@@ -12,7 +13,7 @@ class CompositeDisposable(Disposable):
             self.disposables = list(args)
 
         self.is_disposed = False
-        self.lock = config["concurrency"].RLock()
+        self.lock = RLock()
         super(CompositeDisposable, self).__init__()
 
     def add(self, item):
@@ -33,8 +34,8 @@ class CompositeDisposable(Disposable):
             item.dispose()
 
     def remove(self, item):
-        """Removes and disposes the first occurrence of a disposable from the
-        CompositeDisposable."""
+        """Removes and disposes the first occurrence of a disposable from
+        the CompositeDisposable."""
 
         if self.is_disposed:
             return
@@ -51,26 +52,27 @@ class CompositeDisposable(Disposable):
         return should_dispose
 
     def dispose(self):
-        """Disposes all disposables in the group and removes them from the
-        group."""
+        """Disposes all disposables in the group and removes them from
+        the group."""
 
         if self.is_disposed:
             return
 
         with self.lock:
             self.is_disposed = True
-            current_disposables = self.disposables[:]
+            current_disposables = self.disposables
             self.disposables = []
 
         for disposable in current_disposables:
             disposable.dispose()
 
     def clear(self):
-        """Removes and disposes all disposables from the CompositeDisposable,
-        but does not dispose the CompositeDisposable."""
+        """Removes and disposes all disposables from the
+        CompositeDisposable, but does not dispose the
+        CompositeDisposable."""
 
         with self.lock:
-            current_disposables = self.disposables[:]
+            current_disposables = self.disposables
             self.disposables = []
 
         for disposable in current_disposables:
@@ -96,4 +98,3 @@ class CompositeDisposable(Disposable):
     @property
     def length(self):
         return len(self.disposables)
-
